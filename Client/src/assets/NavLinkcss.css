@@ -1,0 +1,6 @@
+.active{
+    color: #7971cf;
+    background-color: #2b2b2b;
+    transition: all;
+    transition-duration: 300ms;
+}
