@@ -46,7 +46,7 @@ function About() {
             <h1 className='text-center text-3xl font-bold mb-4'>{title}</h1>
             <div className="w-full">
               {
-                response.description&& response.description.map((para, index)=>(<p className='w-[85vw]'><Paragraph data={para}/></p>))
+                response.description&& response.description.map((para, index)=>(<div className='w-[85vw]' key={index}><Paragraph data={para}/></div>))
               }
             </div>
           </div>

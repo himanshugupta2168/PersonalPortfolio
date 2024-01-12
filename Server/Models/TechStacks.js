@@ -10,11 +10,12 @@ const TechSchema = new mongoose.Schema({
         type:String, 
     },
     description:{
-        
+        type:String,
+        // required:true,
     },
     stackType:{
         type:String, 
-        enum :["Frontend", "Backend","Database Management", "Language", "Other" ],
+        enum :["Frontend", "Backend","DatabaseManagement", "Language", "Other" ],
     },
     highlight:{
         type:Boolean,

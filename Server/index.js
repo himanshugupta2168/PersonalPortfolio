@@ -38,9 +38,10 @@ app.use(cors());
 
 //  cloudianry extra functions 
 // image upload to cloud 
-function checkSupported(fileType , supportedTypes){
+function checkSupported(fileType, supportedTypes) {
   return supportedTypes.includes(fileType);
 }
+
 async function uploadFileToCloudinary(file, folder) {
   try {
     const options = { folder, resource_type: "auto" };
@@ -49,86 +50,89 @@ async function uploadFileToCloudinary(file, folder) {
     throw new Error("Error uploading file to Cloudinary");
   }
 }
+
 app.post("/publish", adminMiddleware, async (req, res) => {
-  //  to add projects
-  try{
+  try {
     const { title, techstack, github_url, live_url, tags, description } = req.body;
-    const file = req.files.image;
-    const supportedType=["jpeg", "png", "jpg"];
-    const fileType = file.name.split('.').pop().toLowerCase();  
-    if (!checkSupported(fileType, supportedType)){
-      return res.status(415).json({
-        msg:"Unsupported file type",
-        success :false,
-      });
-    }
-    else{
-      const response =await  uploadFileToCloudinary(file, "Portfolio/Projects");
+    const file = req.files ? req.files.image : undefined;
 
-      const savedData = await Project({
-        // your other Project properties...
-        title:title,
-        github_url:github_url,
-        live_url:live_url,
-        description:description,
-        techStack: [],
-        tags: [],
-        image_url:response.secure_url,
-      });
-      
-      const techStackUrls = techstack.split(',');
-      const tagUrls = tags.split(',');
-      
-      // Function to create or find a TechStack document based on words==urls
-      const createOrFindTechStack = async (url) => {
-        let techStackDoc = await TechStack.findOne({ title:url });
-        if (!techStackDoc) {
-          techStackDoc = await TechStack.create({title:url});
-        }
-        return techStackDoc._id;
-      };
-      
-      // Function to create or find a Tag document based on words===urls
-      const createOrFindTag = async (url) => {
-        let tagDoc = await Tag.findOne({ tagName:url });
-        if (!tagDoc) {
-          tagDoc = await Tag.create({tagName: url});
-        }
-        return tagDoc._id;
-      };
-      
-      // Process techstack URLs
-      for (const url of techStackUrls) {
-        const techStackId = await createOrFindTechStack(url);
-        savedData.techStack.push(techStackId);
+    if (file) {
+      const supportedTypes = ["jpeg", "png", "jpg"];
+      const fileType = file.name.split('.').pop().toLowerCase();
+
+      if (!checkSupported(fileType, supportedTypes)) {
+        return res.status(415).json({
+          msg: "Unsupported file type",
+          success: false,
+        });
       }
-      
-      // Process tags URLs
-      for (const url of tagUrls) {
-        const tagId = await createOrFindTag(url);
-        savedData.tags.push(tagId);
-      }
-      
-      // Save the updated Project document with associated TechStack and Tag IDs
-      await savedData.save();
-      
-      // Response with the savedData, including associated TechStack and Tag IDs
-      return res.status(200).json({
-        msg: "Project created successfully",
-        data: savedData,
-      });
-      
+
+      const response = await uploadFileToCloudinary(file, "Portfolio/Projects");
+
+      var imageUrl = response.secure_url;
+    } else {
+      var imageUrl = null;
     }
 
-  }
-  catch(err){
-    return res.status(500).json ({
-      msg:"Internal Server Error ",
-      error:err.message,
-    })
+    const savedData = await Project({
+      title: title,
+      github_url: github_url,
+      live_url: live_url,
+      description: description,
+      techStack: [],
+      tags: [],
+      image_url: imageUrl,
+    });
 
+    const techStackUrls = techstack.split(',');
+    const tagUrls = tags.split(',');
+
+    const createOrFindTechStack = async (url) => {
+      let techStackDoc = await TechStack.findOne({ title: url });
+      if (!techStackDoc) {
+        techStackDoc = await TechStack.create({ title: url });
+      }
+      return techStackDoc._id;
+    };
+
+    const createOrFindTag = async (url) => {
+      let tagDoc = await Tag.findOne({ tagName: url });
+      if (!tagDoc) {
+        tagDoc = await Tag.create({ tagName: url });
+      }
+      return tagDoc._id;
+    };
+
+    for (const url of techStackUrls) {
+      const techStackId = await TechStack.findOne({
+        title:url,
+      });
+      savedData.techStack.push(techStackId);
+    }
+
+    for (const url of tagUrls) {
+      const tagId = await Tag.findOne({
+        tagName:url,
+      });
+      savedData.tags.push(tagId);
+    }
+
+    await savedData.save();
+
+    return res.status(200).json({
+      msg: "Project created successfully",
+      data: savedData,
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: err.message,
+    });
   }
 });
+
+
 app.get("/projects", async (req, res) => {
   //  to get entire projects
   try{
@@ -147,9 +151,10 @@ catch(err){
     }
 });
 
-app.get("/techs", async (req, res) => {
+app.get("/techs/:tech", async (req, res) => {
   try {
-    const response = await TechStack.find({}).sort({ createdAt: -1 });
+    // console.log(req.params.tech);
+    const response = await TechStack.find({stackType:req.params.tech}).sort({ createdAt: -1 });
     return res.status(200).json({
       msg: "Tech Stacks fetched Successfully",
       data: response,
@@ -162,11 +167,12 @@ app.get("/techs", async (req, res) => {
   }
 });
 
-app.post("/techstack", async (req, res) => {
+app.post("/techstack", adminMiddleware , async (req, res) => {
   //  to enter a new tech stack
   try {
-    const { title, description, stackType, highlight } = req.body;
+    const { title,stackType, highlight, description } = req.body;
     let file = null;
+    console.log(description);
 
     if (req.files && req.files.image) {
       file = req.files.image;
@@ -187,10 +193,10 @@ app.post("/techstack", async (req, res) => {
     }
     const savedData = await TechStack.create({
       title: title,
-      imageUrl:response!=null?response.secure_url:null,
-      description: description,
+      description:description,
       stackType: stackType,
       highlight: highlight,
+      imageUrl:response!=null?response.secure_url:null,
     });
 
     return res.status(201).json({
