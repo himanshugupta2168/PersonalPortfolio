@@ -150,6 +150,22 @@ catch(err){
     
     }
 });
+app.get("/techs", async (req, res) => {
+  try {
+    // console.log(req.params.tech);
+    const response = await TechStack.find({}).sort({ createdAt: -1 });
+    return res.status(200).json({
+      msg: "Tech Stacks fetched Successfully",
+      data: response,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: "Internal Server error",
+      error: err.message,
+    });
+  }
+});
+
 
 app.get("/techs/:tech", async (req, res) => {
   try {
