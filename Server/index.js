@@ -307,17 +307,6 @@ app.get("/", async (req, res) =>{
       error: err
     })
   }
-  const response = await Admin.find({}).select("-password -username")
-  return res.json(response)
-});
-//  use the below one onmly to create admin
-app.post("/postt", async (req, res) => {
-  const { username, password } = req.body;
-  await Admin.create({
-    username: username,
-    password: password,
-  });
-  return res.json("Admin account created Successfully ");
 });
 
 app.use((err, req, res, next) => {
