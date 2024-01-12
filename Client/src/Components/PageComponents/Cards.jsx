@@ -18,8 +18,8 @@ function Cards({ data }) {
           </p>
           <div className="hidden lg:flex flex-row mx-4">
             {
-              data.techStack.map((tech)=>{
-              return <div className="relative group">
+              data.techStack.map((tech, index)=>{
+              return <div className="relative group" key={index}>
                 <img key={tech._id} src={tech.imageUrl} className="w-5 h-5 bg-contain rounded-full mx-2 bg-center" alt={tech.title}/>
                 <span className="absolute bg-white -bottom-4 md:-bottom-12 hidden group-hover:block text-black text-xs p-2">{tech.title}</span>
               </div>

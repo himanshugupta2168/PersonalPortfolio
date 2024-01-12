@@ -34,7 +34,12 @@ app.use(fileUplaod({
 }
 ))
 
-app.use(cors());
+var corsOptions = {
+  origin: ["http://localhost:5173","https://himanshu-gupta-v1.vercel.app/"],
+  optionsSuccessStatus: 200 // For legacy browser support
+  }
+
+app.use(cors(corsOptions));
 
 //  cloudianry extra functions 
 // image upload to cloud 
