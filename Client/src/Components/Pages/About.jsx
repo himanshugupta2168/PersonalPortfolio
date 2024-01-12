@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Footer from "../PageComponents/Footer"
 import { toast } from 'react-toastify';
 import Loader from "../PageComponents/Loader"
-import Logo from "../../../PortFolio-Logo.png"
+import Logo from "../../../pLogo.png"
 import Paragraph from "./../PageComponents/Paragraph"
 function About() {
   const[title, setTitle]= useState("");
