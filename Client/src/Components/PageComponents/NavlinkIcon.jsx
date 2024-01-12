@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import '../assets/NavLinkcss.css'
 import "../../assets/NavLinkcss.css"
 
 function NavlinkIcon({links_data, icon}) {
