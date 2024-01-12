@@ -29,10 +29,6 @@ function HomePage() {
     FetchDatas();
   }, []); 
 
-
-  console.log(projectData);
-  console.log(tech);
-
   return (
     <div className='w-full relative'>
       <div className='w-[80%] mx-auto my-16 text-white'>
