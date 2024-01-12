@@ -35,7 +35,7 @@ app.use(fileUplaod({
 ))
 
 var corsOptions = {
-  origin: ["http://localhost:5173","https://himanshu-gupta-v1.vercel.app/", "https://himanshuguptaportfolio.onrender.com/"],
+  origin: [process.env.Origin_1, process.env.Origin_2, process.env.Origin_3],
   optionsSuccessStatus: 200 // For legacy browser support
   }
 
