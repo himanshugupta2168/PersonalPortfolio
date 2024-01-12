@@ -13,10 +13,10 @@ function HomePage() {
   const FetchDatas=async()=>{
     try{
       setLoading(true);
-      const projectresp = await fetch(`${import.meta.env.VITE_BACKEND_URL}/projects`);
+      const projectresp = await fetch(`${import.meta.env.VITE_BACKEND_URL}projects`);
       const project= await projectresp.json();
       setProjectData(project.data);
-      const techresp = await fetch(`${import.meta.env.VITE_BACKEND_URL}/techs`);
+      const techresp = await fetch(`${import.meta.env.VITE_BACKEND_URL}techs`);
       const techData = await techresp.json();
       setTech(techData.data);
       setLoading(false);

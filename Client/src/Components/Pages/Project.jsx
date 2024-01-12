@@ -10,7 +10,7 @@ function Project() {
   const fetchData = async()=>{
     try{
       setLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/projects`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}projects`);
       const data = await response.json();
       setData(data.data);
       setLoading(false);

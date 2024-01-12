@@ -35,7 +35,7 @@ function Contact() {
       description: description,
     };
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/contactviaform`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}contactviaform`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {

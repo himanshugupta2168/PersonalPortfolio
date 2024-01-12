@@ -14,11 +14,11 @@ function TechStack() {
   async function fetchDatas() {
     setLoading(true)
     const requests = [
-      `${import.meta.env.VITE_BACKEND_URL}/techs/Frontend`,
-      `${import.meta.env.VITE_BACKEND_URL}/techs/Backend`,
-      `${import.meta.env.VITE_BACKEND_URL}/techs/Language`,
-      `${import.meta.env.VITE_BACKEND_URL}/techs/Other`,
-      `${import.meta.env.VITE_BACKEND_URL}/techs/DatabaseManagement`,
+      `${import.meta.env.VITE_BACKEND_URL}techs/Frontend`,
+      `${import.meta.env.VITE_BACKEND_URL}techs/Backend`,
+      `${import.meta.env.VITE_BACKEND_URL}techs/Language`,
+      `${import.meta.env.VITE_BACKEND_URL}techs/Other`,
+      `${import.meta.env.VITE_BACKEND_URL}techs/DatabaseManagement`,
     ];
 
     try {
