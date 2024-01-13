@@ -35,7 +35,7 @@ app.use(fileUplaod({
 ))
 
 var corsOptions = {
-  origin: [process.env.Origin_1, process.env.Origin_2, process.env.Origin_3],
+  origin: ["https://himanshu-gupta-v1.vercel.app/"],
   optionsSuccessStatus: 200 // For legacy browser support
   }
 
@@ -248,7 +248,7 @@ app.post("/contactviaform", async (req, res) => {
     });
   }
 });
-app.get("/toContact", async (req, res) => {
+app.get("/toContact", adminMiddleware,  async (req, res) => {
   //  to diplayed all pwrsons who filled the form n
   try {
     const response = await Contact.find({});
