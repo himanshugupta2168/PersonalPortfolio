@@ -23,7 +23,7 @@ function Project() {
   useEffect(()=>{
     fetchData();
   },[])
-  console.log(data);
+  // console.log(data);
   return (
     <div className=' w-full relative'> 
       <div className='w-[80%] mx-auto my-16 text-white'>
