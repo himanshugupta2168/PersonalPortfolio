@@ -265,7 +265,6 @@ app.get("/toContact", adminMiddleware,  async (req, res) => {
 });
 app.post("/login", async (req, res) => {
   try {
-    console.log(req.body);
     const { username, password } = req.body;
 
     // Validate email and password using zod schemas with safeParse

@@ -2,7 +2,7 @@ import React, { useState, useEffect , useRef} from "react";
 import { motion } from "framer-motion";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { FaArrowLeftLong, FaArrowRight } from "react-icons/fa6";
-import profile from "../assets/Images/profile.jpg"
+import profile from "../assets/Images/MY_Pic.jpg"
 import Typed from "typed.js";
 import NavlinkIcon from "./PageComponents/NavlinkIcon";
 import { GoProjectSymlink } from "react-icons/go";
